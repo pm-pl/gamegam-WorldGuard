@@ -1,37 +1,25 @@
 # new
-WorldGuard Update List (Latest)
+[Worldguard 3.1.0 Update]
 
-List of Added Flags:
-flag: keep-inventory has been added.
-keep-inventory: Protects your inventory when you die. (deny = protected)
+Removed code.
+Worldguard has been selected.
+Flag: First applied to Falling-blocks.
 
-fly has been added.
-fly: Flying is not allowed. (Spectator mode and Creative mode excluded)
+In previous versions, flags for the entire world and a specific range were applied as if they were Falling-blocks.
+For example, you could recruit Falling-blocks in a specific area and have them act as if they were recruited world-wide, giving the server parts.
 
-bow has been added.
-bow: You cannot pull a bow in this region.
+Currently, priority is applied and Falling-blocks are welcomed as a global item within a specific range.
 
-ender_pearl has been added.
-ender_pearl: You cannot throw Ender Pearls in this region.
-You can manage an entire specific world using the /worldprotection or /wp command.
+Note: Added item.
+Welcome to blocking live in the area.
 
-Other Plugin Integration:
-Now can be used together with ScoreHud.
-Use worldguard.region.name to get the name of the region you are currently in.
+Format: Fixed an error in exiting the exit.
 
-=== Translation Patch & Bug Patch ===
+Optimized Worldguard performance.
+Some files were incorrectly written.
 
-Fixed an issue where translation files were not properly added after updating the plugin.
+Commemorated the memory of the Anniversary API.
 
-Real-time translation has been implemented.
 
-You can edit translations without shutting down the server.
-Path: Translation files are located in plugin_data/WorldGuardPlugin/Language/.
-
-Added a warning message on/off feature.
-You must change warn_message: true to warn_message: false in
-plugin_data/WorldGuardPlugin/config.yml.
-
-Developer mode has been removed.
 
 + poggit

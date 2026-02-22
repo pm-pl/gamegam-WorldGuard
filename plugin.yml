@@ -6,5 +6,5 @@ api: 5.0.0
 
 permissions:
   WorldGuardPlugin.permission:
-
     default: op
+

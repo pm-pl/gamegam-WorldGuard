@@ -54,7 +54,7 @@ class RegionJoin extends Event{
         return $this->getMove()->cancel();
     }
 
-    public function umcancel()
+    public function umcancel(): PlayerMoveEvent
     {
         return $this->getMove()->uncancel();
     }

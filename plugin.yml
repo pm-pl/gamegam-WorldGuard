@@ -5,5 +5,5 @@ version: 3.0.2
 api: 5.0.0
 
 permissions:
-  WorldGuardPlugin.permissimon:
+  WorldGuardPlugin.permission:
     default: op

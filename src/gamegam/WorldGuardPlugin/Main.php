@@ -4,19 +4,15 @@ namespace gamegam\WorldGuardPlugin;
 
 use gamegam\WorldGuardPlugin\command\worldFullCommand;
 use gamegam\WorldGuardPlugin\command\WorldGuardCommand;
-use gamegam\WorldGuardPlugin\EvnetListener\Blocks;
-use gamegam\WorldGuardPlugin\EvnetListener\WorldGuardEvent\BlockGuard;
-use gamegam\WorldGuardPlugin\EvnetListener\WorldGuardEvent\Damage;
-use gamegam\WorldGuardPlugin\EvnetListener\WorldGuardEvent\Entity;
-use gamegam\WorldGuardPlugin\EvnetListener\WorldGuardEvent\Player;
+use gamegam\WorldGuardPlugin\EventListener\Blocks;
+use gamegam\WorldGuardPlugin\EventListener\WorldGuardEvent\{BlockGuard, Damage, Entity, Players};
 use gamegam\WorldGuardPlugin\Language\LanguageFile;
-use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Filesystem;
 use pocketmine\utils\SingletonTrait;
 use Symfony\Component\Filesystem\Path;
 
-class Main extends PluginBase implements Listener{
+class Main extends PluginBase{
 
     use SingletonTrait;
 
@@ -24,6 +20,9 @@ class Main extends PluginBase implements Listener{
 	public array $block = [];
     public array $worlds = [];
 	public $abc;
+
+	public array $cache = [];
+	public array $grid = [];
 
 	public function onEnable() : void{
         self::setInstance($this);
@@ -56,18 +55,45 @@ class Main extends PluginBase implements Listener{
 			new WorldGuardCommand($this),
             new worldFullCommand()
 		]);
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->registerEvnet([
-			$this,
 			new Blocks($this),
 			new BlockGuard($this),
 			new Damage($this),
-			new Player($this),
+			new Players($this),
 			new Entity($this)
 			]
 		);
 
 		$this->getScheduler()->scheduleRepeatingTask(new Task(), 0);
+
+		foreach ($this->db["name"] as $name => $array) {
+			$pos1 = explode(":", $array["pos1"]);
+			$pos2 = explode(":", $array["pos2"]);
+			$world = $array["world"] ?? "world";
+
+			$data = [
+				'minX' => (int)min($pos1[0], $pos2[0]),
+				'maxX' => (int)max($pos1[0], $pos2[0]),
+				'minY' => (int)min($pos1[1], $pos2[1]),
+				'maxY' => (int)max($pos1[1], $pos2[1]),
+				'minZ' => (int)min($pos1[2], $pos2[2]),
+				'maxZ' => (int)max($pos1[2], $pos2[2]),
+				'world' => $world
+			];
+
+			$this->zoneCache[$name] = $data;
+
+			$minGX = $data['minX'] >> 7;
+			$maxGX = $data['maxX'] >> 7;
+			$minGZ = $data['minZ'] >> 7;
+			$maxGZ = $data['maxZ'] >> 7;
+
+			for ($gx = $minGX; $gx <= $maxGX; $gx++) {
+				for ($gz = $minGZ; $gz <= $maxGZ; $gz++) {
+					$this->grid[$world][$gx][$gz][] = $name;
+				}
+			}
+		}
 	}
 
 	public function onLoad(): void{

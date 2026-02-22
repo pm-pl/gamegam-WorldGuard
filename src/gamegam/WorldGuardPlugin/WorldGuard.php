@@ -13,7 +13,7 @@ class WorldGuard{
 	public $api;
 
 	public function __construct(){
-		$this->api = Server::getInstance()->getPluginManager()->getPlugin("WorldGuardPlugin");
+		$this->api = Main::getInstance();
 		self::setInstance($this);
 	}
 
@@ -30,19 +30,11 @@ class WorldGuard{
 	}
 
 	public function isMode(Player $p):bool{
-		$bool = false;
-		if (isset($this->api->db[$p->getName()]["pos"])){
-			$bool = true;
-		}
-		return $bool;
+		return isset($this->api->db[$p->getName()]["pos"]);
 	}
 
 	public function isPos1(Player $p): bool{
-		$bool = false;
-		if (isset($this->api->db[$p->getName()]["pos1"])){
-			$bool = true;
-		}
-		return $bool;
+		return isset($this->api->db[$p->getName()]["pos1"]);
 	}
 
 	public function cancel(Player $p){
@@ -50,11 +42,7 @@ class WorldGuard{
 	}
 
 	public function isModel(Player $p): bool{
-		$bool = false;
-		if (isset($this->api->db[$p->getName()]["last"])){
-			$bool = true;
-		}
-		return $bool;
+		return isset($this->api->db[$p->getName()]["last"]);
 	}
 
 	public function setMode1(Player $p, $pos1, $pos2){
@@ -66,16 +54,14 @@ class WorldGuard{
 		}
 	}
 
-	public function getPlayerData(Player $p):array{
+	public function getPlayerData(Player $p): ?array{
 		$data = $this->api->db[$p->getName()] ?? null;
 		return $data;
 	}
 
 	public function setPos1(Player $p, string $msg){
-		if ($this->isMode($p)){
-			if (! $this->isPos1($p)){
-				$this->api->db[$p->getName()]["pos1"] = $msg;
-			}
+		if ($this->isMode($p) && ! $this->isPos1($p)){
+			$this->api->db[$p->getName()]["pos1"] = $msg;
 		}
 	}
 }

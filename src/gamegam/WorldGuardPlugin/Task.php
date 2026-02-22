@@ -17,16 +17,17 @@ class Task extends \pocketmine\scheduler\Task{
 					$pos = $entity->getPosition();
 					$guardData = GuarddData::getInstance();
 					$guard = WorldData::getInstance();
-					if ($guard->getBlockJoin($pos)) {
-						if ($guardData->getFlag($guard->getName($pos), "falling-blocks")) {
-							$world->setBlock($pos, $entity->getBlock());
-							$entity->flagForDespawn();
-						}
+					if ($guard->getBlockJoin($pos) && $guardData->getFlag($guard->getName($pos), "falling-blocks")) {
+						$world->setBlock($pos, $entity->getBlock());
+						$entity->flagForDespawn();
+						break;
 					}
                     $d = GuarddFullData::getInstance();
                     if ($d->getFlag($guard->getName($pos), "falling-blocks")){
                         $world->setBlock($pos, $entity->getBlock());
                         $entity->flagForDespawn();
+						// task 종료
+						break;
                     }
 				}
 			}

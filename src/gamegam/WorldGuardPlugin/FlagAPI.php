@@ -31,11 +31,7 @@ class FlagAPI{
 	}
 
 	public function isType($name): bool{
-		$bool = false;
-		if(isset($this->getFlag()[$name])){
-			$bool = true;
-		}
-		return $bool;
+		return isset($this->getFlag()[$name]);
 	}
 
 	public function getCount(): int

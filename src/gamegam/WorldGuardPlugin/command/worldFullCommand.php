@@ -25,7 +25,7 @@ class worldFullCommand extends Command
         parent::__construct("worldprotection", "Commands that manage a particular world as a whole", null, [
             "wp"
         ]);
-        $this->setPermission("WorldGuardPlugin.permissimon");
+        $this->setPermission("WorldGuardPlugin.permission");
     }
 
     public function execute(CommandSender $p, string $commandLabel, array $args): void

@@ -2,7 +2,6 @@
 
 namespace gamegam\WorldGuardPlugin;
 
-use pocketmine\Server;
 use pocketmine\utils\SingletonTrait;
 
 class DataBlock
@@ -15,10 +14,9 @@ class DataBlock
 	public function __construct()
 	{
 		self::setInstance($this);
-		$this->api = Server::getInstance()->getPluginManager()->getPlugin("WorldGuardPlugin");
+		$this->api = Main::getInstance();
 	}
 
-	// 파괴 가능한 블럭 목록들
 	public function getBlock(string $name): array
 	{
 		return $this->api->block[$name] ?? [];
@@ -55,7 +53,7 @@ class DataBlock
 		if (isset($this->api->block[$name][$block_name])) {
 			unset($this->api->block[$name][$block_name]);
 		} else {
-			$bool = false; // 삭제가 불가능 할때
+			$bool = false;
 		}
 		return $bool;
 	}

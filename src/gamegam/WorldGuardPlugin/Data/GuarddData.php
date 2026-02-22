@@ -24,248 +24,126 @@ class GuarddData
 		$this->data = WorldData::getInstance();
 	}
 
-	public function getChat(string $name): bool
+	public function getFlag(string $name, $flag = "build"): bool
 	{
-		$bool = false;
-		if ($this->data->isName($name)) {
-			if (isset($this->api->db["name"][$name]["flag"]["chat"])) {
-				$bool = true;
-			}
-		}
-		return $bool;
+		return $this->data->isName($name) && isset($this->api->db["name"][$name]["flag"][$flag]);
 	}
 
-	public function getMobSpawn(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["mob-spawn"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getChat(string $name): bool
+	{
+		return $this->data->isName($name) && ($this->api->db["name"][$name]["flag"]["chat"] ?? false);
+	}
+
+	public function getMobSpawn(string $name): bool
+	{
+		return $this->data->isName($name) && ($this->api->db["name"][$name]["flag"]["mob-spawn"] ?? false);
 	}
 
 	/**
 	 * If you detect a build in the area
 	 */
-
-	public function getBuild(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["build"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getBuild(string $name): bool
+	{
+		return $this->getFlag($name, "build");
 	}
 
-	public function getInteract(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["use"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getInteract(string $name): bool
+	{
+		return $this->getFlag($name, "interact");
 	}
 
-	public function getMembers(string $name, $p): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["member"][strtolower($p)])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getMembers(string $name, $p): bool
+	{
+		return $this->data->isName($name) && ($this->api->db["name"][$name]["member"][strtolower($p)] ?? false);
 	}
 
-	public function getTNT(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["tnt"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getTNT(string $name): bool
+	{
+		return $this->getFlag($name, "tnt");
 	}
 
-	public function getinvincible(string $name){
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["invincible"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getinvincible(string $name): bool
+	{
+		return $this->getFlag($name, "invincible");
 	}
 
-	public function getLave(string $name):bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["lava-flow"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getLave(string $name): bool
+	{
+		return $this->getFlag($name, "lava-flow");
 	}
 
-	public function getWater(string $name):bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["water"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getWater(string $name): bool
+	{
+		return $this->getFlag($name, "water");
 	}
 
-	public function getTNTDamage(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["tnt-damage"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getTNTDamage(string $name): bool
+	{
+		return $this->getFlag($name, "tnt-damage");
 	}
 
-	public function getPVP(string $name){
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["pvp"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getPVP(string $name): bool
+	{
+		return $this->getFlag($name, "pvp");
 	}
 
-	public function getMobDamage(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["mob-damage"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getMobDamage(string $name): bool
+	{
+		return $this->getFlag($name, "mob-damage");
 	}
 
-	public function getMobPVP(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["mob-pvp"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getMobPVP(string $name): bool
+	{
+		return $this->getFlag($name, "mob-pvp");
 	}
 
-	public function getfire(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["fire"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getfire(string $name): bool
+	{
+		return $this->getFlag($name, "fire");
 	}
 
 	// exit
-
-	public function getExit(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["exit"])){
-				$bool = true;
-			}
-		}
-		return $bool;
-	}
-	// entry
-	public function getEntry(string $name): bool
+	public function getExit(string $name): bool
 	{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["entry"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+		return $this->getFlag($name, "exit");
 	}
 
 	// item drop
 	public function getItemDrop(string $name): bool
 	{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["item-drop"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+		return $this->getFlag($name, "item-drop");
 	}
 
 	// tp
-	public function getTP(string $name)
+	public function getTP(string $name): bool
 	{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"]["tp"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+		return $this->getFlag($name, "tp");
 	}
 
-	public function getFlag(string $name, $flag = "build"): bool
+	// insave
+	public function getDeath(string $name): bool
 	{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if(isset($this->api->db["name"][$name]["flag"][$flag])){
-				$bool = true;
-			}
-		}
-		return $bool;
+		return $this->getFlag($name, "keep-inventory");
 	}
 
-    // insave
-    public function getDeath(string $name): bool
-    {
-        $bool = false;
-        if ($this->data->isName($name)){
-            if(isset($this->api->db["name"][$name]["flag"]["keep-inventory"])){
-                $bool = true;
-            }
-        }
-        return $bool;
-    }
-
-	public function getFly(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["fly"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getFly(string $name): bool
+	{
+		return $this->getFlag($name, "fly");
 	}
 
 	// bow
-	public function getBow(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["bow"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+	public function getBow(string $name): bool
+	{
+		return $this->getFlag($name, "bow");
 	}
-	public function getPearl(string $name): bool{
-		$bool = false;
-		if ($this->data->isName($name)){
-			if (isset($this->api->db["name"][$name]["flag"]["ender_pearl"])){
-				$bool = true;
-			}
-		}
-		return $bool;
+
+	public function getPearl(string $name): bool
+	{
+		return $this->getFlag($name, "ender_pearl");
+	}
+
+	public function getEntry(string $name): bool
+	{
+		return $this->getFlag($name, "entry");
 	}
 }

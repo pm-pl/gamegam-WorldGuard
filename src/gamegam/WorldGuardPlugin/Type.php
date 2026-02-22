@@ -29,39 +29,28 @@ class Type{
 		"fly" => "fly",
 		"bow" => "bow",
 		"ender_pearl" => "ender_pearl",
+		"entry" => "entry"
 	];
 
-	private array $array;
-
-	private int $count = 0;
+	private array $flag = [];
 
 	private bool $loag = false;
 
 	public function __construct() {
-		$this->array = $this->default;
+		$this->flag = $this->default;
 	}
-
-	private string $remove_name = "";
 
 	public function addFlag(string $flag = "build")
 	{
 		$flag = strtolower($flag);
-		if (!isset($this->array[$flag])) {
-			if ($this->remove_name !== ""){
-				throw new \RuntimeException("Flag Add Error: Do not add flags immediately after deleting them.");
-			}
-			if ($this->count > 22 && ! $this->loag) {
-				Server::getInstance()->getLogger()->info("§cYou can add up to 23 flags.");
-				$this->loag = true;
-			}else{
-				if ($this->loag){
-				}else{
-					$this->array[$flag] = $flag;
-					$this->count ++;
-					Server::getInstance()->getLogger()->info("§a{$flag} has been added.");
-					$this->loag = false;
-				}
-			}
+		if (count($this->flag) >= 10000) {
+			throw new \RuntimeException("You can add up to 10000 in terms of performance.");
+
+		}
+		if (!isset($this->flag[$flag]) && !isset($this->default[$flag])) {
+			$this->flag[$flag] = $flag;
+			Server::getInstance()->getLogger()->info("§a{$flag} has been added.");
+			$this->loag = false;
 		}else{
 			throw new \RuntimeException("{$flag} has already been added.");
 		}
@@ -76,13 +65,9 @@ class Type{
 	{
 		$removed = true;
 		if ($flag !== ""){
-			if (isset($this->default[$flag])){
-			}else{
-				if (isset($this->array[$flag])){
-					$this->remove_name = "";
-					$this->remove_name = $flag;
-					unset($this->array[$flag]);
-					$this->count --;
+			if (! isset($this->default[$flag])){
+				if (isset($this->flag[$flag])){
+					unset($this->flag[$flag]);
 				}else{
 					$removed = false;
 				}
@@ -93,14 +78,10 @@ class Type{
 
 	public function getArray(): array
 	{
-		return $this->array;
+		return $this->flag;
 	}
 
 	public function isType($name): bool{
-		$bool = false;
-		if(isset($this->array[$name])){
-			$bool = true;
-		}
-		return $bool;
+		return isset($this->flag[$name]);
 	}
 }

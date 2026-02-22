@@ -19,7 +19,6 @@ use pocketmine\plugin\PluginOwned;
 use pocketmine\plugin\PluginOwnedTrait;
 use pocketmine\Server;
 use pocketmine\world\Position;
-use pocketmine\permission\DefaultPermissions;
 
 class WorldGuardCommand extends Command implements PluginOwned
 {
@@ -34,7 +33,7 @@ class WorldGuardCommand extends Command implements PluginOwned
             "regin"
         ]);
         $this->api = $api;
-		$this->setPermission("WorldGuardPlugin.permissimon");
+		$this->setPermission("WorldGuardPlugin.permission");
     }
 
     public function flag(Player $p)
@@ -278,7 +277,6 @@ class WorldGuardCommand extends Command implements PluginOwned
                             if ($item_block instanceof Air) {
                                 $p->sendMessage(($worldguard->getTag() . $this->api->getAPI()->getString("allblock")));
                             } else {
-                                // 블럭일경우
                                 $is = str_replace("(name)", $args[1], $this->api->getAPI()->getString("notname"));
                                 if (!$worlddata->isName($args[1])) {
                                     $p->sendMessage($worldguard->getTag() . $is);
@@ -289,11 +287,9 @@ class WorldGuardCommand extends Command implements PluginOwned
                                 if (!$blockdata->setData_Block($args[1], $item_block->getName())) {
                                     $p->sendMessage($worldguard->getTag() . $msg);
                                 } else {
-                                    // 제거
                                     $msg = str_replace("(name)", $args[1], $this->api->getAPI()->getString("allblock_remove"));
                                     $msg = str_replace("(block)", $item_block->getName(), $msg);
                                     if ($blockdata->Remove_Data($args[1], $item_block->getName())) {
-                                        // 삭제 메시지
                                         $p->sendMessage($worldguard->getTag() . $msg);
                                     } else {
                                         $msg = str_replace("(name)", $args[1], $this->api->getAPI()->getString("allblock_removeno"));
